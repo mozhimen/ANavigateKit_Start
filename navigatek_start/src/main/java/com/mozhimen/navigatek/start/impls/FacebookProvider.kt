@@ -5,8 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.util.Log
+import com.mozhimen.basick.elemk.android.content.cons.CIntent
 import com.mozhimen.basick.utilk.android.content.UtilKPackageManager
 import com.mozhimen.basick.utilk.android.content.startContext
+import com.mozhimen.basick.utilk.bases.IUtilK
 import com.mozhimen.navigatek.start.commons.IProvider
 
 
@@ -17,7 +20,7 @@ import com.mozhimen.navigatek.start.commons.IProvider
  * @Date 2023/12/29 1:14
  * @Version 1.0
  */
-object FacebookProvider : IProvider {
+object FacebookProvider : IProvider, IUtilK {
     override val PACKAGE_NAME = "com.facebook.katana"
 
     /////////////////////////////////////////////////////////////
@@ -46,16 +49,16 @@ object FacebookProvider : IProvider {
     fun startContext(context: Context, id: String, name: String) {
         val strPageUrl = "http://www.facebook.com/${name}"
         try {
-            context.startContext(Intent(Intent.ACTION_VIEW, Uri.parse(getFacebookDetailURL(context, strPageUrl))))
-        } catch (e: ActivityNotFoundException) {
+            context.startContext(Intent(CIntent.ACTION_VIEW, Uri.parse(getFacebookDetailURL(context, strPageUrl).also { Log.d(TAG, "startContext: getFacebookDetailURL $it") })))
+        } catch (e: Exception) {
             e.printStackTrace()
             // 处理Facebook应用未安装的情况
             // 可以在这里打开网页版Facebook或提示用户安装Facebook应用
             try {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/$id"))
+                val intent = Intent(CIntent.ACTION_VIEW, Uri.parse("fb://page/$id"))
                 intent.setPackage(PACKAGE_NAME) // 指定要使用Facebook应用打开链接
                 context.startContext(intent)
-            } catch (e: ActivityNotFoundException) {
+            } catch (e: Exception) {
                 e.printStackTrace()
                 try {
                     context.startContext(Intent(Intent.ACTION_VIEW, Uri.parse(strPageUrl)))
