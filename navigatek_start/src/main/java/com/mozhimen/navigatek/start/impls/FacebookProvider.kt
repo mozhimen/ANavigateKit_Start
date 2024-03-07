@@ -9,7 +9,7 @@ import android.util.Log
 import com.mozhimen.basick.elemk.android.content.cons.CIntent
 import com.mozhimen.basick.utilk.android.content.UtilKPackageManager
 import com.mozhimen.basick.utilk.android.content.startContext
-import com.mozhimen.basick.utilk.bases.IUtilK
+import com.mozhimen.basick.utilk.commons.IUtilK
 import com.mozhimen.navigatek.start.commons.IProvider
 
 
